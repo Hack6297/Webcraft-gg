@@ -1,1 +1,1 @@
-web: daphne -b 0.0.0.0 -p 10000 WebCraftLauncher.asgi:application
+web: daphne WebCraftLauncher.asgi:application --port 10000 --bind 0.0.0.0
