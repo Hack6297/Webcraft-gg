@@ -1,6 +1,7 @@
 
 SECRET_KEY = '123'
 DEBUG = True
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -16,3 +17,10 @@ STATIC_URL = '/static/'
 MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
+=======
+ROOT_URLCONF = 'webcraft.urls'
+ALLOWED_HOSTS = ['*']
+INSTALLED_APPS = ['django.contrib.staticfiles']
+STATIC_URL = '/static/'
+MIDDLEWARE = []
+>>>>>>> 2c7ea8b6258db0972324c1d5aa873a98296caee6
