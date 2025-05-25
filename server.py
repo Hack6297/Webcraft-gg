@@ -1,21 +1,23 @@
 import os
+import sys
 import django
+
+# Добавляем путь, чтобы Django увидел settings
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WebCraftLauncher.WebCraftLauncher.settings')
+django.setup()
+
 from socketio import AsyncServer
 from socketio.asgi import ASGIApp
 from fastapi import FastAPI
 import uvicorn
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WebCraftLauncher.settings')
-django.setup()
-
-import asyncio
 
 sio = AsyncServer(async_mode='asgi', cors_allowed_origins='*')
 app = FastAPI()
 asgi_app = ASGIApp(sio)
 app.mount("/", asgi_app)
 
-players = {}  # sid: {x, y, z, color, nickname}
+players = {}
 
 @sio.event
 async def connect(sid, environ):
@@ -26,14 +28,11 @@ async def connect(sid, environ):
 @sio.event
 async def disconnect(sid):
     print(f"[-] {sid} disconnected")
-    if sid in players:
-        del players[sid]
+    players.pop(sid, None)
     await sio.emit('player_update', players)
 
 @sio.event
 async def player_position(sid, data):
-    if sid not in players:
-        return
     players[sid] = {
         'x': data['x'],
         'y': data['y'],
@@ -51,6 +50,5 @@ async def block_update(sid, data):
 async def block_remove(sid, data):
     await sio.emit('block_remove', data, skip_sid=sid)
 
-# For local testing
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=10000)
