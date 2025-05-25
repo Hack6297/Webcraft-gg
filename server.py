@@ -11,6 +11,9 @@ import uvicorn
 
 sio = AsyncServer(async_mode='asgi', cors_allowed_origins='*')
 app = FastAPI()
+@app.get("/")
+async def home():
+    return {"status": "WebCraft multiplayer server is live!"}
 asgi_app = ASGIApp(sio)
 app.mount("/", asgi_app)
 
