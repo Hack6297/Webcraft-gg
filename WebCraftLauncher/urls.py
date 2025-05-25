@@ -1,10 +1,8 @@
+
 from django.urls import path
-
-urlpatterns = []  # No views yet
-
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.home),
+    path('launch/', views.launch_game)
 ]
-
