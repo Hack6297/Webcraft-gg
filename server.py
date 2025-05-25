@@ -1,10 +1,13 @@
 import os
 import sys
-import django
 
-# Добавляем путь, чтобы Django увидел settings
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WebCraftLauncher.WebCraftLauncher.settings')
+# === ⬇️ Путь до каталога WebCraftLauncher/WebCraftLauncher/settings.py
+sys.path.append(os.path.join(os.path.dirname(__file__), "WebCraftLauncher"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "WebCraftLauncher", "WebCraftLauncher"))
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+
+import django
 django.setup()
 
 from socketio import AsyncServer
